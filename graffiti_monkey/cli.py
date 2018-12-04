@@ -133,7 +133,7 @@ class GraffitiMonkeyCli(object):
         elif "profile" in self.config.keys():
             self.profile = self.config["profile"]
         else:
-            self.profile = 'default'
+            self.profile = None
         log.debug("Using profile: %s", self.profile)
 
     def set_dryrun(self):
