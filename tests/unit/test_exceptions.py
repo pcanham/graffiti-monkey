@@ -14,7 +14,8 @@
 
 import unittest
 
-from graffiti_monkey.exceptions import * 
+from graffiti_monkey.exceptions import GraffitiMonkeyException
+
 
 class ExceptionTests(unittest.TestCase):
     def test_new_exception(self):
@@ -23,6 +24,9 @@ class ExceptionTests(unittest.TestCase):
 
     def raise_GraffitiMonkeyException(self):
         raise GraffitiMonkeyException('msg')
-    
+
     def test_raise_GraffitiMonkeyException(self):
-        self.assertRaises(GraffitiMonkeyException, self.raise_GraffitiMonkeyException)
+        self.assertRaises(
+            GraffitiMonkeyException,
+            self.raise_GraffitiMonkeyException
+        )

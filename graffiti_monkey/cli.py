@@ -15,12 +15,11 @@
 import argparse
 import logging
 import sys
+import urllib2
 
 from graffiti_monkey.core import GraffitiMonkey, Logging
 from graffiti_monkey import __version__
 from graffiti_monkey.exceptions import GraffitiMonkeyException
-
-from boto.utils import get_instance_metadata
 
 
 __all__ = ('run', )
@@ -52,6 +51,15 @@ class GraffitiMonkeyCli(object):
         log.error(message)
         sys.exit(code)
 
+    @staticmethod
+    def _get_region():
+        try:
+            availability_zone = urllib2.urlopen('http://169.254.169.254/latest/meta-data/placement/availability-zone', timeout=1).read()
+        except urllib2.URLError:
+            GraffitiMonkeyCli._fail('Could not determine region. This script is either not running on an EC2 instance (in which case you should use the --region option), or the meta-data service is down')
+
+        return availability_zone[:-1]
+
     def get_argv(self):
         """
         The parse_args method from ArgumentParser expects to not get the script title when arguments are passed to the
@@ -70,7 +78,7 @@ class GraffitiMonkeyCli(object):
         parser.add_argument('--version', action='version', version='%(prog)s ' + __version__,
                             help='display version number and exit')
         parser.add_argument('--config', '-c', nargs="?", type=argparse.FileType('r'),
-                        default=None, help="Give a yaml configuration file")
+                            default=None, help="Give a yaml configuration file")
         parser.add_argument('--dryrun', action='store_true',
                             help='dryrun only, display tagging actions but do not perform them')
         parser.add_argument('--append', action='store_true',
@@ -95,20 +103,18 @@ class GraffitiMonkeyCli(object):
         if self.args.config:
             try:
                 import yaml
-            except:
+            except Exception:
                 log.error("When the config parameter is used, you need to have the python PyYAML library.")
                 log.error("It can be installed with pip `pip install PyYAML`.")
                 sys.exit(5)
 
             try:
-                #TODO: take default values and these can be overwritten by config
+                # TODO: take default values and these can be overwritten by config
                 self.config = yaml.load(self.args.config)
                 if self.config is None:
                     self.fail_due_to_bad_config_file()
-            except:
+            except Exception:
                 self.fail_due_to_bad_config_file()
-
-
 
     def set_region(self):
         if self.args.region:
@@ -119,12 +125,8 @@ class GraffitiMonkeyCli(object):
             # If no region was specified, assume this is running on an EC2 instance
             # and work out what region it is in
             log.debug("Figure out which region I am running in...")
-            instance_metadata = get_instance_metadata(timeout=5)
-            log.debug('Instance meta-data: %s', instance_metadata)
-            if not instance_metadata:
-                GraffitiMonkeyCli._fail('Could not determine region. This script is either not running on an EC2 instance (in which case you should use the --region option), or the meta-data service is down')
+            self.region = self._get_region()
 
-            self.region = instance_metadata['placement']['availability-zone'][:-1]
         log.debug("Running in region: %s", self.region)
 
     def set_profile(self):
