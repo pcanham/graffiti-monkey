@@ -19,12 +19,12 @@ setuptools install script for Graffiti Monkey
 
 import sys
 major, minor = sys.version_info[0:2]
-if major != 2 or minor < 7:
-    print 'Graffiti Monkey requires Python 2.7.x'
+if major != 3 or minor < 7:
+    print('Graffiti Monkey requires Python 3.7.x')
     sys.exit(1)
 
 from setuptools import setup, find_packages
-    
+
 import graffiti_monkey
 
 with open('requirements.txt') as fh:
@@ -64,7 +64,7 @@ setup(
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.7',
         'Topic :: System :: Installation/Setup',
         'Topic :: Utilities',
     )

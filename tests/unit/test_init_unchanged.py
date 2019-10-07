@@ -48,7 +48,7 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._instance_tags_to_propagate, ['Name'])
+        self.assertEqual(cli.monkey._instance_tags_to_propagate, ['Name'])
 
     @mock_ec2
     def test_graffiti_monkey_volume_tags_to_propagate_should_be_the_same(self):
@@ -56,7 +56,7 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._volume_tags_to_propagate, ['Name', 'instance_id', 'device'])
+        self.assertEqual(cli.monkey._volume_tags_to_propagate, ['Name', 'instance_id', 'device'])
 
     @mock_ec2
     def test_region_unchanged(self):
@@ -64,7 +64,7 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._region, "us-west-1")
+        self.assertEqual(cli.monkey._region, "us-west-1")
 
     @mock_ec2
     def test_region_unchanged_with_default_config(self):
@@ -72,7 +72,7 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments_with_default_config_file(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._region, "us-west-1")
+        self.assertEqual(cli.monkey._region, "us-west-1")
 
     @mock_ec2
     def test_graffiti_monkey_instance_tags_to_propagate_should_be_the_same_with_default_config(self):
@@ -80,7 +80,7 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments_with_default_config_file(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._instance_tags_to_propagate, ['Name'])
+        self.assertEqual(cli.monkey._instance_tags_to_propagate, ['Name'])
 
     @mock_ec2
     def test_graffiti_monkey_volume_tags_to_propagate_should_be_the_same_with_default_config(self):
@@ -88,4 +88,4 @@ class InitUnchangedTests(unittest.TestCase):
         self.set_cli_arguments_with_default_config_file(cli)
         self.do_not_propagate_tags_nor_exit(cli)
         cli.run()
-        self.assertEquals(cli.monkey._volume_tags_to_propagate, ['Name', 'instance_id', 'device'])
+        self.assertEqual(cli.monkey._volume_tags_to_propagate, ['Name', 'instance_id', 'device'])
