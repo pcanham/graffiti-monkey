@@ -1,0 +1,21 @@
+---
+version: '2.1'
+services:
+  gm:
+    build: .
+    command:
+      - graffiti-monkey
+      - --config=/etc/graffiti-monkey/config.yml
+      - --append
+      - --nosnapshots
+      - --dryrun
+      - -vvv
+    environment:
+      AWS_REGION: us-east-1
+    volumes:
+      - ./confg/example_config.yml:/etc/graffiti-monkey/config.yml
+    networks:
+      - local
+
+networks:
+  local:
