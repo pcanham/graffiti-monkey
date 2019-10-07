@@ -216,7 +216,7 @@ class GraffitiMonkeyCli(object):
             self.start_tags_propagation()
 
         except GraffitiMonkeyException as e:
-            GraffitiMonkeyCli._fail(e.message)
+            GraffitiMonkeyCli._fail(e)
 
         self.exit_succesfully()
 
