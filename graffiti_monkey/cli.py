@@ -110,7 +110,7 @@ class GraffitiMonkeyCli(object):
 
             try:
                 # TODO: take default values and these can be overwritten by config
-                self.config = yaml.load(self.args.config)
+                self.config = yaml.load(self.args.config, Loader=yaml.SafeLoader)
                 if self.config is None:
                     self.fail_due_to_bad_config_file()
             except Exception:
