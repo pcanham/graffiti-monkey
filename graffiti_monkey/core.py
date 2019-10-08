@@ -404,21 +404,21 @@ class Logging(object):
     _log_simple_format = '%(asctime)s [%(levelname)s] %(message)s'
     _log_detailed_format = '%(asctime)s [%(levelname)s] [%(name)s(%(lineno)s):%(funcName)s] %(message)s'
 
-    def configure(self, verbosity = 'OFF'):
+    def configure(self, verbosity = 0):
         ''' Configure the logging format and verbosity '''
 
         # Configure our logging output
-        if verbosity == 'DEBUG':
+        if verbosity == 2:
             logging.basicConfig(level=logging.DEBUG, format=self._log_detailed_format, datefmt='%Y-%m-%d %H:%M:%S')
-        elif verbosity == 'INFO':
+        elif verbosity == 1:
             logging.basicConfig(level=logging.INFO, format=self._log_detailed_format, datefmt='%Y-%m-%d %H:%M:%S')
         else:
             logging.basicConfig(level=logging.INFO, format=self._log_simple_format, datefmt='%Y-%m-%d %H:%M:%S')
 
         # Configure Boto's logging output
-        if verbosity == 'TRACE':
+        if verbosity == 4:
             logging.getLogger('boto3').setLevel(logging.DEBUG)
-        elif verbosity == 'DEBUG':
+        elif verbosity == 3:
             logging.getLogger('boto3').setLevel(logging.INFO)
         else:
             logging.getLogger('boto3').setLevel(logging.CRITICAL)
