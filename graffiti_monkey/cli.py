@@ -73,7 +73,7 @@ class GraffitiMonkeyCli(object):
                             help='the region to tag things in (default is current region of EC2 instance this is running on). E.g. us-east-1')
         parser.add_argument('--profile', metavar='PROFILE',
                             help='the profile (credentials) to use to connect to EC2')
-        parser.add_argument('--verbose', '-v', action='count',
+        parser.add_argument('--verbose', '-v', action='count', default=int(0),
                             help='enable verbose output (-vvv for more)')
         parser.add_argument('--version', action='version', version='%(prog)s ' + __version__,
                             help='display version number and exit')
